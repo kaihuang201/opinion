@@ -8,7 +8,9 @@
 			<h3><small>{{topic.source}} - {{topic.date}}</small></h3>
 		</div>
 		<div class="col-md-8 col-md-offset-2">
-			<p class="lead">{{topic.content}} <a class="btn btn-primary btn-sm" href="{{ topic.url }}" role="button">Source Link</a></p>
+			<p class="lead">{{topic.content}} <a class="btn btn-primary btn-sm" href="{{ topic.url }}" role="button">Source Link</a>
+		<button type="submit" class="btn btn-primary btn-sm">Like&nbsp
+		  <span class="badge">{{topic.likecount}}</span></button>
 		</div>
   	</div>
   	<div class="row">

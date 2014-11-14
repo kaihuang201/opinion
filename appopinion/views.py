@@ -82,7 +82,11 @@ profile page
 def profile(request):
     usr = request.user
     profile = Profile.objects.get(user=usr)
-    return render(request, 'appopinion/profile.html', {'user':usr, 'profile':profile})
+    
+    return render(request, 'appopinion/profile.html', {'user':usr, 
+                                                       'profile':profile,
+                                                       'liked_topics':profile.likes.all,
+                                                   })
 
 """
 signout success page

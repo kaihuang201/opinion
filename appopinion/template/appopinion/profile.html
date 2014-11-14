@@ -1,11 +1,25 @@
+{% extends 'appopinion/base.html' %}
+
+{% block content%}
 <div class="container">
-    <h2 class="form-signin-heading">{{ user.name }}</h2>
-    <div>{{ profile.motto }}</div>
-    {% for topic in liked_topics %}
-    <ul class="links">
-			<li class="links">
-			    {{topic.title}}
-			</li>
-	</ul>
+    <h2 class="form-signin-heading">{{ user.username }}'s profile</h2>
+    <p class="lead">{{ profile.motto }}</p>
+    <h3>Liked Topics:</h3>
+   {% for topic in liked_topics %}
+  		<div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      
+      <div class="caption">
+        <a href="../topic_id={{topic.id }}">
+      		<h3>{{ topic.title |truncatewords:10}}</h3>
+    	</a>
+        <p> {{ topic.content|truncatewords:20 }}</p>
+        
+      </div>
+    </div>
+  	</div>
+ 	
     {% endfor %}
 </div>
+
+{% endblock %}
