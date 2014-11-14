@@ -1,0 +1,40 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8">
+    <title>{% block title %} Anonymous Opinion {% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'appopinion/bootstrap.min.css' %}"> 
+</head>
+<body>
+<div class="container">
+  	<div class="row">
+  		<div class="container">
+  		<div class="jumbotron">
+  			<h1>Welcome to Anonymous Opinion!</h1>
+  			<p>Choose your favorite topic and tell us your opinion.</p>
+		</div>
+		</div>
+	</div>
+	<div class="row">
+	
+	{% for topic in topic_list %}
+  		<div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      
+      <div class="caption">
+        <a href="topic_id={{topic.id }}">
+      		<h3>{{ topic.title |truncatewords:10}}</h3>
+    	</a>
+        <p> {{ topic.content|truncatewords:20 }}</p>
+        
+      </div>
+    </div>
+  	</div>
+ 	{% endfor %}
+	</div>
+</div>
+		
+</body>
+</html>

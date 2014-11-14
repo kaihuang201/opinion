@@ -9,6 +9,12 @@ from django.core.urlresolvers import reverse
 from forms import signinForm, signupForm
 from appopinion.models import *
 
+from datetime import datetime
+from django.db import connection
+import re
+import cgi
+
+
 
 """
 signup view, handles signup requests.
@@ -90,4 +96,26 @@ signup success page
 def success_signup(request):
     return HttpResponse("You have successfully signed up.")
 
+
+# For index and topic detail
+def index(request):
+    topic_list = Topic.objects.all()
+    return render(request, 'appopinion/base.html', {'topic_list' : topic_list[:36]})
+
+def topic_detail(request, topic_id):
+    topic = Topic.objects.get(pk=topic_id)
+    
+    try:
+        comment_text = request.POST['content']
+        new_comment = Comment(
+                              parent_id = topic_id,
+                              content = cgi.escape(comment_text, True),
+                              date = datetime.now(),
+                              )
+        new_comment.save()
+    except:
+        pass
+    
+    comment_list = Comment.objects.all().filter(parent_id=topic_id)
+    return render(request, 'appopinion/topic_detail.html', {'topic_id':topic_id, 'topic':topic, 'comment_list':comment_list})
 
