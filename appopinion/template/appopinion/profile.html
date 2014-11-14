@@ -1,0 +1,11 @@
+<div class="container">
+    <h2 class="form-signin-heading">{{ user.name }}</h2>
+    <div>{{ profile.motto }}</div>
+    {% for topic in liked_topics %}
+    <ul class="links">
+			<li class="links">
+			    {{topic.title}}
+			</li>
+	</ul>
+    {% endfor %}
+</div>
