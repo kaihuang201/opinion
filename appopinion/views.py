@@ -39,7 +39,7 @@ def signup(request):
             profile.save()
 
         # redirect welcome page
-        return HttpResponseRedirect(reverse('appopinion:success_signup'))
+        return HttpResponseRedirect(reverse('appopinion:index'))
     else:
 
         # get request
@@ -74,25 +74,47 @@ signout view, handles signout requests
 def signout(request):
     logout(request)
     # redirect signout successful
-    return HttpResponseRedirect(reverse('appopinion:success_signout'))
+    return HttpResponseRedirect(reverse('appopinion:index'))
 
 """
 profile page
 """
+@login_required(login_url='/signin/')
 def profile(request):
     usr = request.user
     profile = Profile.objects.get(user=usr)
-    
-    return render(request, 'appopinion/profile.html', {'user':usr, 
-                                                       'profile':profile,
-                                                       'liked_topics':profile.likes.all,
-                                                   })
+    context = {
+                'user':usr, 
+                'profile':profile,
+                'liked_topics':profile.likes.all,
+              }
+
+    return render(request, 'appopinion/profile.html', context) 
 
 """
-signout success page
+handle like requests
 """
-def success_signout(request):
-    return HttpResponse("You have successfully signed out.")
+@login_required(login_url='/signin/')
+def like(request, topic_id):
+    try:
+        topic = Topic.objects.get(pk=topic_id)
+    except:
+        return HttpResponseRedirect(reverse('appopinion:index'))
+    
+    usr = request.user
+    profile = Profile.objects.get(user=usr)
+    
+    if not profile.likes.filter(pk=topic_id).exists():
+        profile.likes.add(topic)
+        profile.save()
+
+        topic.likecount += 1
+        topic.save()
+
+    return HttpResponseRedirect(reverse('appopinion:topic_detail', 
+                                         args=[topic_id]))
+
+    
 
 """
 signup success page

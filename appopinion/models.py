@@ -21,5 +21,5 @@ class Comment(models.Model):
 """Profile Model"""
 class Profile(models.Model):
     user = models.ForeignKey(User)
-    motto = models.CharField(max_length=200)
-    likes = models.ManyToManyField(Topic)
+    motto = models.CharField(max_length=200, blank=True)
+    likes = models.ManyToManyField(Topic, blank=True)

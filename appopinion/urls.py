@@ -9,5 +9,7 @@ urlpatterns = patterns('',
     url(r'^profile/$', views.profile, name='profile'),
     
     url(r'^topic_id=(?P<topic_id>[0-9]+)/$', views.topic_detail, name='topic_detail'),
-    url(r'^$', views.index, name='index')
+    url(r'^$', views.index, name='index'),
+
+    url(r'^(?P<topic_id>[0-9]+)/like/$', views.like, name='like'),
 )
