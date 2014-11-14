@@ -25,14 +25,20 @@ def signup(request):
         pswd = request.POST['password']
         pswdagain = request.POST['password_again']
         
-        if pswd==pswdagain:
+        if pswd!=pswdagain:
+            errmsg = 'Passwords does not match.'
+            form = signupForm()
+            return render(request, 'appopinion/signup.html', 
+                                {'form':form, 'error':errmsg})
+        else:
             try:
                 newuser = User.objects.create_user(uname, password=pswd)
                 newuser.save()
             except:
-                errmsg = 'Username already existed!'
+                errmsg = 'Username already existed.'
                 form = signupForm()
-                return render(request, 'appopinion/signup.html', {'form':form, 'error':errmsg})
+                return render(request, 'appopinion/signup.html', 
+                                {'form':form, 'error':errmsg})
                
             # add the profile 
             profile = Profile(user=newuser, motto = '')
