@@ -62,7 +62,9 @@ def signin(request):
             return HttpResponseRedirect(reverse('appopinion:index'))
         else:
             #auth failure
-            return HttpResponse("auth failure")
+            form = signinForm()
+            context = {'form':form, 'authfail':True}
+            return render(request, 'appopinion/accountform.html', context)
     else:
         # get requests
         form = signinForm()
