@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 
-from forms import signinForm, signupForm
+from forms import *
 from appopinion.models import *
 
 from datetime import datetime
@@ -75,6 +75,38 @@ def signout(request):
     logout(request)
     # redirect signout successful
     return HttpResponseRedirect(reverse('appopinion:index'))
+
+
+"""
+profile edit page
+"""
+@login_required(login_url='/signin/')
+def profile_edit(request):
+    usr = request.user
+    profile = Profile.objects.get(user=usr)
+
+    if request.method=='POST':
+        profile.motto = request.POST['motto']
+        profile.save()
+        return HttpResponseRedirect(reverse('appopinion:profile'))
+        
+        """
+        passwd = request.POST['password']
+        newpass = request.POST['new_pass']
+        newpass2 = request.POST['new_pass_again']
+        u = authenticate(username=usr.username, password=passwd)
+        
+        if u is not None:
+            if newpass==newpass2 and newpass is not '':
+        """
+    else:
+        context = {
+                    'form':profileEditForm(),
+                    'user':usr, 
+                    'profile':profile,
+                  }
+        return render(request, 'appopinion/profile_edit.html', context)
+
 
 """
 profile page
