@@ -66,7 +66,7 @@ def signin(request):
     else:
         # get requests
         form = signinForm()
-        return render(request, 'appopinion/accountform.html', {'form' : form})
+        return render(request, 'appopinion/accountform.html', {'form' : form, 'next':next})
 
 """
 signout view, handles signout requests
@@ -165,12 +165,18 @@ def topic_detail(request, topic_id):
     
     try:
         comment_text = request.POST['content']
-        new_comment = Comment(
-                              parent_id = topic_id,
-                              content = cgi.escape(comment_text, True),
-                              date = datetime.now(),
-                              )
-        new_comment.save()
+        if comment_text != '':
+            if not request.user.is_authenticated():
+                return HttpResponseRedirect(
+                            reverse('appopinion:signin') +
+                            '?next=%s' % request.path)
+
+            new_comment = Comment(
+                                  parent_id = topic_id,
+                                  content = cgi.escape(comment_text, True),
+                                  date = datetime.now(),
+                                  )
+            new_comment.save()
     except:
         pass
     
