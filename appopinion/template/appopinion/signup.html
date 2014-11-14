@@ -1,10 +1,16 @@
 {% extends "appopinion/accountform.html" %}
 
 {% block pagetitle %}
-        <h2 class="form-signin-heading">Please Sign Up</h2>
+    <h2 class="form-signin-heading">Please Sign Up</h2>
 {% endblock %}
  
+{% block message %}
+    <div class="alert alert-danger" role="alert">
+        <strong>Error:</strong>
+        {{ error }}
+    </div>
+{% endblock %}
+
 {% block action %} 
-action= {% url 'appopinion:signup' %}
-    
+    action= {% url 'appopinion:signup' %}
 {% endblock %}
