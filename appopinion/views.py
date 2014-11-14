@@ -23,7 +23,7 @@ def signup(request):
     if request.method=='POST':
         uname = request.POST['username']
         pswd = request.POST['password']
-        pswdagain = request.POST['passwordagain']
+        pswdagain = request.POST['password_again']
         
         if pswd==pswdagain:
             try:

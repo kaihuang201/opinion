@@ -1,37 +1,24 @@
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Signin Template for Bootstrap</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="signin.css" rel="stylesheet">
-    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
-
-  </head>
-
-  <body>
+{% extends 'appopinion/base.html' %}
 
 {% block content %}
     <div class="container">
-
-      <form class="form-signin" role="form" action= {% url 'appopinion:signin' %} method="post">
+      <div class="row">
+	<div class="col-md-4 col-md-offset-4">
+      <form class="form-signin" role="form" 
+{% block action%}
+action= {% url 'appopinion:signin' %} 
+{% endblock %}
+method="post">
         <h2 class="form-signin-heading">Please sign in</h2>
         {% csrf_token %}
 
         {{ form.as_p }}
+	<button type="submit" class="btn btn-default">Submit</button>
 
-        <input type="submit" value="Submit" />
       </form>
-
+      </div>
+      </div>
     </div> <!-- /container -->
 {% endblock %}
 
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-  </body>
-</html>
+
