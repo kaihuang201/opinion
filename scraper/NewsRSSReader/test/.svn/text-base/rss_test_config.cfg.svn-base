@@ -1,0 +1,8 @@
+[source_0]
+source = file:///Users/luzefu/Documents/Eclipse/NewsRSSReader/test/test_rss.xml
+source_name = Test
+item_tag = item
+link_tag = link
+title_tag = title
+content_tag = description
+date_tag = pubDate

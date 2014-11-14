@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<rss version="2.0" 
+xmlns:g="http://base.google.com/ns/1.0">
+<channel>
+<title>Test</title>
+<link>localhost</link>
+<description>Test file for RSSReader</description>
+<item>
+<title>title 1</title>
+<link>link 1</link>
+<description>description 1</description>
+<pubDate>Wed, 05 Nov 2014 16:58:14 GMT</pubDate>
+</item>
+<item>
+<title>title 2</title>
+<link>link 2</link>
+<description>description 2</description>
+<pubDate>Wed, 05 Nov 2014 16:59:14 GMT</pubDate>
+</item>
+<item>
+<title>title 3</title>
+<link>link 3</link>
+<description>description 3</description>
+<pubDate>Wed, 05 Nov 2014 17:00:14 GMT</pubDate>
+</item>
+<item>
+<title>title 4</title>
+<link>link 4</link>
+<description>description 4</description>
+<pubDate>Wed, 05 Nov 2014 17:30:14 GMT</pubDate>
+</item>
+</channel>
+</rss>

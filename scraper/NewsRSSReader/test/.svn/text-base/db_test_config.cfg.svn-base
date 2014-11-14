@@ -1,0 +1,11 @@
+[ip]
+ip = localhost
+username = rss_client
+password = mypass
+
+[database]
+database = NewsRSS
+
+[table_0]
+table = topics_test
+columns = title date content url source
