@@ -32,7 +32,7 @@ def signup(request):
             except:
                 errmsg = 'Username already existed!'
                 form = signupForm()
-                return render(request, 'appopinion/signup.html', {'form':form, 'errmsg':errmsg})
+                return render(request, 'appopinion/signup.html', {'form':form, 'error':errmsg})
                
             # add the profile 
             profile = Profile(user=newuser, motto = '')

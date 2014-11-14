@@ -5,7 +5,7 @@ class signinForm(forms.Form):
                 max_length=30, 
 	            widget=forms.TextInput(attrs={
                                 'class' : 'form-control'}),
-                validators=[validators.validate_slug])
+                )
 
 	password = forms.CharField(max_length=30, 
 	            widget=forms.PasswordInput(attrs={
