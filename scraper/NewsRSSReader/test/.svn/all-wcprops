@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/fa14-cs242/!svn/ver/9091/zefulu2/FinalProject/test
+END
+RSSReaderTest.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/fa14-cs242/!svn/ver/9160/zefulu2/FinalProject/test/RSSReaderTest.py
+END
+db_test_config.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/fa14-cs242/!svn/ver/9091/zefulu2/FinalProject/test/db_test_config.cfg
+END
+rss_test_config.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/fa14-cs242/!svn/ver/9091/zefulu2/FinalProject/test/rss_test_config.cfg
+END
+DatabaseWrapperTest.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/fa14-cs242/!svn/ver/9091/zefulu2/FinalProject/test/DatabaseWrapperTest.py
+END
+test_rss.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/fa14-cs242/!svn/ver/9091/zefulu2/FinalProject/test/test_rss.xml
+END
