@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from forms import *
 from appopinion.models import *
@@ -165,8 +166,91 @@ def success_signup(request):
 
 # For index and topic detail
 def index(request):
-    topic_list = Topic.objects.all()
-    return render(request, 'appopinion/base.html', {'topic_list' : topic_list[:36]})
+    PAGE_SIZE = 1
+    MAX_PAGE_LINK = 3
+    MID_PAGES = 1
+
+    topic_all = Topic.objects.all()
+    paginator = Paginator(topic_all, PAGE_SIZE)
+    page_str = request.GET.get('page')
+    try:
+        page = int(page_str)
+        topic_list = paginator.page(page)
+    except PageNotAnInteger:
+        topic_list = paginator.page(1)
+        page = 1
+    except EmptyPage:
+        topic_list = paginator.page(paginator.num_pages)
+        page = paginator.num_pages
+    except:
+        page = 1
+        topic_list = paginator.page(1)
+    
+    page_names = []
+    
+    if (paginator.num_pages > MID_PAGES*2 + 3):
+
+        mid_left = page - MID_PAGES
+        if mid_left < 1:
+            mid_left = 1
+
+        mid_right = page + MID_PAGES
+        if mid_right > paginator.num_pages:
+            mid_right = paginator.num_pages
+
+        if mid_left > 1:
+            page_names += ['...']
+
+        for i in range(mid_left, mid_right+1):
+            page_names += [i]
+
+        if mid_right < paginator.num_pages:
+            page_names += ['...']
+        """
+        if (mid_left <= FIRST_PAGES + 1):
+            for i in range(1, page+1):
+                page_names += [i]
+        else:
+            for i in range(1, FIRST_PAGES+1):
+                page_names += [i]
+            
+            page_names += ['...']
+            
+            for i in range(mid_left, page+1):
+                page_names += [i]
+
+
+        if (mid_right <= paginator.num_pages - LAST_PAGES):
+            for i in range(page+1, paginator.num_pages + 1):
+                page_names += [i]
+        else:
+            for i in range(page+1, mid_right+1):
+                page_names += [i]
+            
+            page_names += ['...']
+            
+            for i in range(paginator.num_pages-LAST_PAGES+1, paginator.num_pages+1):
+                page_names += [i]
+        """
+    else:
+        for i in range(1, paginator.num_pages+1):
+            page_names += [i]
+
+    page_prev = page - 1
+    page_next = page + 1
+
+    if page_next > paginator.num_pages:
+        page_next = -1
+
+    context = {
+            'topic_list' : topic_list,
+            'page_names' : page_names,
+            'page_prev' : page_prev,
+            'page_next' : page_next,
+            'page' : page,
+            }
+
+    return render(request, 'appopinion/base.html', context)
 
 def topic_detail(request, topic_id):
     topic = Topic.objects.get(pk=topic_id)
