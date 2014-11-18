@@ -12,7 +12,9 @@
 
 		<form action="{% url 'appopinion:like' topic.id %}" method="post">
             {% csrf_token %}
-            <button type="submit" class="btn btn-primary btn-sm">Like&nbsp
+            <button type="submit" class="btn btn-primary btn-sm">
+                Like&nbsp
+
               <span class="badge">{{topic.likecount}}</span></button>
             </div>
         </form>
