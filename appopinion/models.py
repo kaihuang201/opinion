@@ -15,6 +15,7 @@ class Comment(models.Model):
     content = models.TextField()
     parent = models.ForeignKey(Topic)
     date = models.DateTimeField('date published')
+    vote = models.BigIntegerField(default=0)
 
 """Profile Model"""
 class Profile(models.Model):

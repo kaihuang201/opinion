@@ -5,7 +5,11 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
+<<<<<<< HEAD
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+=======
+from django.core.paginator import Paginator
+>>>>>>> ajax
 
 from forms import *
 from appopinion.models import *
@@ -22,6 +26,14 @@ signup view, handles signup requests.
 """
 def signup(request):
     if request.method=='POST':
+        # if user is already signed in redirect to index
+        if request.user.is_authenticated():
+            errmsg = 'You are already signed in.'
+            form = signupForm()
+            return render(request, 'appopinion/signup.html', 
+                                {'form':form, 'error':errmsg})
+
+        # handle a sign up request
         uname = request.POST['username']
         pswd = request.POST['password']
         pswdagain = request.POST['password_again']
