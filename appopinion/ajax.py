@@ -20,11 +20,23 @@ def vote(request, commentid, up):
             # comment not found
             return json.dumps({'change':0})
         
+        try:
+            vote = Votes.objects.get(user=request.user, comment=comment)
+        except:
+            vote = Votes(user=request.user, comment=comment)
+            vote.save()
+
         if up==1:
             change = 1
         else:
             change = -1
         
+        if change==vote.voteval:
+            return json.dumps({'change':0, 'msg':'You have already voted.'})
+
+        vote.voteval += change
+        vote.save()
+
         comment.vote += change
         comment.save()
 

@@ -22,3 +22,9 @@ class Profile(models.Model):
     user = models.ForeignKey(User)
     motto = models.CharField(max_length=200, blank=True)
     likes = models.ManyToManyField(Topic, blank=True)
+
+"""Store what each user voted what"""
+class Votes(models.Model):
+    user = models.ForeignKey(User)
+    comment = models.ForeignKey(Comment)
+    voteval = models.IntegerField(default=0)
