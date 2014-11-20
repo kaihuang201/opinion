@@ -4,7 +4,7 @@
 <script>
   // callback function for like
   function likecallback(data){
-    document.getElementById("likecount").innerHTML = data.likecount;
+    $("#likecount").html(data.likecount);
   }
   
   // callback function for vote
@@ -12,15 +12,25 @@
     if (data.change==0)
         return;
 
-    oldcount = parseInt(document.getElementById("votecount" + data.commentid).innerHTML);
-    document.getElementById("votecount" + data.commentid).innerHTML = oldcount + data.change;
+    oldcount = parseInt($("#votecount" + data.commentid).html());
+    $("#votecount" + data.commentid).html(oldcount + data.change);
   }
+  $( document ).ready(function(){
+    $(".vote").on("click", function(e) {
+      args = {
+        'commentid' : $(this).data("commentid"),
+        'up' : $(this).data("up"),
+      }
+      Dajaxice.appopinion.vote(votecallback, args);
+      return false; // prevent default, so it doesn't scroll to top
+    });
+  });
 </script>
 
 
 <div class="container">
 
-	<div class="row">
+    <div class="row">
 
 		<div class="col-md-8 col-md-offset-2">
 			<h1>{{topic.title}}</h1>
@@ -34,8 +44,8 @@
               <form action="{% url 'appopinion:like' topic.id %}" method="post">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-primary btn-sm">
-                  Like&nbsp
-                  <span class="badge">{{topic.likecount}}</span>
+                    <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                    {{topic.likecount}}
                 </button>
               </form>
             </p>
@@ -69,7 +79,7 @@
     
   	<div class="row">
   		<div class="col-md-8 col-md-offset-2">
-  		<h3>All comments</h3>
+  		<h3>Comments</h3>
   		<ul class="list-group">
   			{% for comment in comment_list %}
   			<li class="list-group-item">
@@ -77,12 +87,14 @@
                 <p>{{comment.content}}</p>
                 <p>
                   {% if user.is_authenticated %}
+                    <a href='#' class='vote' data-commentid='{{comment.id}}' data-up='1'><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a>
+
                     <span class="badge" id="votecount{{comment.id}}">{{comment.vote}}</span>
-                    <a href='#' onclick="Dajaxice.appopinion.vote(votecallback, 
-                        {'commentid':{{comment.id}}, 'up':1});">Up Vote</a>
-                    <a href='#' onclick="Dajaxice.appopinion.vote(votecallback, 
-                        {'commentid':{{comment.id}}, 'up':0});">Down vote</a>
+                    
+                    <a href='#' class='vote' data-commentid='{{comment.id}}' data-up='0'><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></a>
+
                   {% else %}
+                    <span class="badge" id="votecount{{comment.id}}">{{comment.vote}}</span>
                     Please sign in to vote.
                   {% endif %}
                 </p>

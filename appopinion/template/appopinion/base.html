@@ -3,13 +3,17 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   	<meta charset="utf-8">
     <title>{% block title %} Anonymous Opinion {% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'appopinion/bootstrap.min.css' %}"> 
+    <script src="{% static 'appopinion/jquery-1.11.0.min.js' %}"></script>
     {% dajaxice_js_import %}
 </head>
+
 <body>
+
 {% block content %}
 <div class="container">
   	<div class="row">
@@ -38,6 +42,7 @@
  	{% endfor %}
  	
 	</div>
+
 
     <nav>
       <ul class="pagination">  
