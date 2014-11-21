@@ -289,17 +289,22 @@ def topic_detail(request, topic_id):
 
 @csrf_exempt
 def topic_update(request, topic_id):
-    ensure_csrf_cookie(request)
     response_data = {}
+    if request.user.is_authenticated():
+        response_data['auth'] = 1
+    else:
+        response_data['auth'] = 0
+    ensure_csrf_cookie(request)
+
     time = request.POST['now']
     try:
-        time = datetime.datetime.fromtimestamp(int(time)/1e3)
+        time = datetime.fromtimestamp(int(time)/1e3)
         comment_list = Comment.objects.all().filter(parent_id=topic_id, date__gt=time)
         
         counter = 0
         
         for comment in comment_list:
-            response_data[str(counter)] = {'content': comment.content, 'commentid': comment.id}
+            response_data[str(counter)] = {'content': comment.content, 'commentid': comment.id, 'vote':comment.vote}
             counter += 1
         print response_data
     except Exception as e:

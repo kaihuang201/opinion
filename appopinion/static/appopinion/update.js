@@ -15,11 +15,21 @@ function get_ajax(){
 		var div = document.getElementById('new_comments');
 		var json = response;
 		for (key in json){
-		    //var newli = document.createElement('li');
-		    //newli.className = 'list-group-item';
-		    div.innerHTML = '<li class="list-group-item">'+ json[key].content+'</li>' + div.innerHTML;
-		    //<li class="list-group-item">{{comment.content}}</li>
-		    //alert(json[key].content);
+		    
+		    if(key != 'auth'){
+			var list_item = '<li class="list-group-item"><div><p>' + json[key].content + '</p><p>'; 
+			if(json['auth'] == 1){
+			    list_item = list_item + "<a href='#' class='vote' data-commentid='" + json[key].commentid + "'";
+			    list_item += " data-up='1'><span class=" + '"glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a>"';
+			    list_item +=  '<span class="badge" id="votecount'+ json[key].commentid +'">'+ json[key].vote + "</span>";
+			    list_item += "<a href='#' class='vote' data-commentid='" + json[key].commentid + "'";
+			    list_item +=  " data-up='0'><span class=" + '"glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></a>"';
+			}else{
+			    list_item +=  '<span class="badge" id="votecount'+ json[key].commentid +'">'+ json[key].vote + "</span> Please sign in to vote";
+			}
+			document.getElementById('new_comments').innerHTML = list_item + document.getElementById('new_comments').innerHTML;
+		    }
+		    
 		}
 	    }
 	    
