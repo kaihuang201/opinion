@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'^profile/edit/$', views.profile_edit, name='profile_edit'),
     
     url(r'^topic_id=(?P<topic_id>[0-9]+)/$', views.topic_detail, name='topic_detail'),
+    url(r'^topic_id=(?P<topic_id>[0-9]+)/update/$', views.topic_update),
     url(r'^$', views.index, name='index'),
 
     url(r'^(?P<topic_id>[0-9]+)/like/$', views.like, name='like'),

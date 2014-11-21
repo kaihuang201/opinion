@@ -6,14 +6,18 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+from django.utils import timezone
 
 from forms import *
 from appopinion.models import *
 
 from datetime import datetime
+from dateutil.tz import tzlocal
 from django.db import connection
 import re
 import cgi
+import json
 
 
 
@@ -281,5 +285,24 @@ def topic_detail(request, topic_id):
         pass
     
     comment_list = Comment.objects.all().filter(parent_id=topic_id)
-    return render(request, 'appopinion/topic_detail.html', {'topic_id':topic_id, 'topic':topic, 'comment_list':comment_list})
+    return render(request, 'appopinion/topic_detail.html', {'topic_id':topic_id, 'topic':topic, 'comment_list':comment_list[::-1]})
 
+@csrf_exempt
+def topic_update(request, topic_id):
+    ensure_csrf_cookie(request)
+    response_data = {}
+    time = request.POST['now']
+    try:
+        time = datetime.datetime.fromtimestamp(int(time)/1e3)
+        comment_list = Comment.objects.all().filter(parent_id=topic_id, date__gt=time)
+        
+        counter = 0
+        
+        for comment in comment_list:
+            response_data[str(counter)] = {'content': comment.content, 'commentid': comment.id}
+            counter += 1
+        print response_data
+    except Exception as e:
+        print e
+    
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
