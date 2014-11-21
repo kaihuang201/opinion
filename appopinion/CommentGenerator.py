@@ -59,7 +59,7 @@ class CommentGenerator(object):
             counter+=1
 
 def main():
-    generator = CommentGenerator(1)
+    generator = CommentGenerator(5)
     generator.generate()
     
 if __name__ == '__main__':

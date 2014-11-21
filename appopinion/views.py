@@ -178,9 +178,9 @@ def success_signup(request):
 
 # For index and topic detail
 def index(request):
-    PAGE_SIZE = 1
-    MAX_PAGE_LINK = 3
-    MID_PAGES = 1
+    PAGE_SIZE = 12
+    MAX_PAGE_LINK = 10
+    MID_PAGES = 3
 
     topic_all = Topic.objects.all()
     paginator = Paginator(topic_all, PAGE_SIZE)
