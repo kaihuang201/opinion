@@ -8,7 +8,7 @@ class Topic(models.Model):
     content = models.TextField()
     url = models.CharField(max_length=255)
     source = models.CharField(max_length=255)
-    likecount = models.BigIntegerField()
+    likecount = models.BigIntegerField(default=0)
 
 """Comment Model"""
 class Comment(models.Model):
