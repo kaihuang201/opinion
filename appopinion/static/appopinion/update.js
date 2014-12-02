@@ -46,6 +46,7 @@ function get_ajax(){
 		success: function(response) {
             var div = document.getElementById('new_comments');
             var json = response;
+            console.log(json);
             for (key in json){
                 
                 if(key != 'auth'){
