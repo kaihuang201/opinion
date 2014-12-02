@@ -8,6 +8,7 @@
   	<meta charset="utf-8">
     <title>{% block title %} Anonymous Opinion {% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'appopinion/bootstrap.min.css' %}"> 
+    <link rel="stylesheet" type="text/css" href="{% static 'appopinion/opinion.css' %}"> 
     <script src="{% static 'appopinion/jquery-1.11.0.min.js' %}"></script>
     <script src="{% static 'appopinion/update.js'%} " type="text/javascript"></script>
     {% dajaxice_js_import %}
@@ -56,21 +57,20 @@
 		</div>
 		</div>
 	</div>
-	<div class="row">
+
+	<div class="pinrow">
 	
 	{% for topic in topic_list %}
-  		<div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-      
-      <div class="caption">
-        <a href="topic_id={{topic.id }}">
-      		<h3>{{ topic.title | truncatewords:10 }}</h3>
-    	</a>
-        <p> {{ topic.content | truncatewords:20 }}</p>
-        
+      <div class="item">
+        <div class="well">
+
+          <a href="topic_id={{topic.id }}"><h3>{{ topic.title | truncatewords:20 }}<br>
+          <h4><small>{{ topic.date }}</small></h4></h3></a>
+
+          <p> {{ topic.content | truncatewords:50}}</p>
+            
+        </div>
       </div>
-    </div>
-  	</div>
  	{% endfor %}
  	
 	</div>

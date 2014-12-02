@@ -1,0 +1,20 @@
+.pinrow {
+ -moz-column-width: 16em;
+ -webkit-column-width: 16em;
+ -moz-column-gap: 1.5em;
+ -webkit-column-gap:1.5em; 
+ display: block;
+}
+
+.item {
+ display: inline-block;
+ padding:  .25rem;
+ width:  100%; 
+}
+
+.well {
+ padding-top: 5px;
+ padding-bottom: 5px;
+ position: relative;
+ display: block;
+}
