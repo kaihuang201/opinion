@@ -16,6 +16,7 @@ class Comment(models.Model):
     parent = models.ForeignKey(Topic)
     date = models.DateTimeField('date published')
     vote = models.BigIntegerField(default=0)
+    positive = models.BooleanField(default=True)
 
 """Profile Model"""
 class Profile(models.Model):
