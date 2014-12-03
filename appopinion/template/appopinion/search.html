@@ -1,0 +1,28 @@
+{% extends 'appopinion/base.html' %}
+
+{%  block content %}
+<script>
+$('.datepicker').datepicker();
+</script>
+<div class="container">
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        <strong>Error:</strong>
+        {{ error }}
+    </div>
+    {% endif %}
+    
+    <div class="row">
+		<div class="col-md-8 col-md-offset-2">
+            <form class="form" role="form" action="" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit"  class"btn btn-primary">Go</button>
+            </form>
+        </div>
+	</div>
+</div>
+
+{% include "appopinion/topiclist.html" %}
+
+{% endblock %}
