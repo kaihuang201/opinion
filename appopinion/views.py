@@ -272,6 +272,11 @@ def topic_detail(request, topic_id):
     comment_list = Comment.objects.all().filter(parent_id=topic_id)
     return render(request, 'appopinion/topic_detail.html', {'topic_id':topic_id, 'topic':topic, 'comment_list':comment_list[::-1]})
 
+def search(request):
+    return render(request, 'appopinion/search.html')
+
+
+
 @csrf_exempt
 def topic_update(request, topic_id):
     response_data = {}
@@ -296,3 +301,4 @@ def topic_update(request, topic_id):
         print e
     
     return HttpResponse(json.dumps(response_data), content_type="application/json")
+
