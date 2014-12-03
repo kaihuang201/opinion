@@ -180,7 +180,7 @@ def success_signup(request):
 helper funtion for redering index page, takes a queryset topics and return the rendered page
 """
 def rederIndexPage(request, topics, page_str):
-    PAGE_SIZE = 12
+    PAGE_SIZE = 30
     MAX_PAGE_LINK = 10
     MID_PAGES = 3
     
