@@ -20,7 +20,9 @@ import re
 import cgi
 import json
 
-
+"""Feature function for comments"""
+def word_feats(words):
+    return dict([(word, True) for word in words])
 
 """
 signup view, handles signup requests.
@@ -261,18 +263,30 @@ def topic_detail(request, topic_id):
                 return HttpResponseRedirect(
                             reverse('appopinion:signin') +
                             '?next=%s' % request.path)
-
-            new_comment = Comment(
+                new_comment = Comment(
                                   parent_id = topic_id,
                                   content = cgi.escape(comment_text, True),
                                   date = datetime.now(),
+                                  positive = True,
                                   )
             new_comment.save()
     except:
         pass
     
     comment_list = Comment.objects.all().filter(parent_id=topic_id)
-    return render(request, 'appopinion/topic_detail.html', {'topic_id':topic_id, 'topic':topic, 'comment_list':comment_list[::-1]})
+
+    pos_count = 0.0
+    for comment in comment_list:
+        if comment.positive == True:
+            pos_count += 1.0
+    if len(comment_list ) > 0:
+        pos_percent = pos_count / len(comment_list)
+        neg_percent = 1.0 - pos_percent
+    else:
+        pos_percent = 0.0
+        neg_percent = 0.0
+    print pos_percent
+    return render(request, 'appopinion/topic_detail.html', {'topic_id':topic_id, 'topic':topic, 'comment_list':comment_list[::-1], 'pos_percent': pos_percent * 100, 'neg_percent': neg_percent * 100})
 
 """
 handle advance search request
