@@ -294,32 +294,33 @@ handle advance search request
 """
 def search(request):
     if request.method=='POST':
-        after_str = request.POST.get('after')
-        after = datetime.strptime('1970/01/01', '%Y/%m/%d')
-        if not after_str=='':
-            after = datetime.strptime(after_str, '%Y/%m/%d')
+        try:
+            after_str = request.POST.get('after')
+            after = datetime.strptime('1970/01/01', '%Y/%m/%d')
+            if not after_str=='':
+                after = datetime.strptime(after_str, '%Y/%m/%d')
 
-        before_str = request.POST.get('before')
-        before = datetime.now()
-        if not before_str=='':
-            before = datetime.strptime(before_str, '%Y/%m/%d')
+            before_str = request.POST.get('before')
+            before = datetime.now()
+            if not before_str=='':
+                before = datetime.strptime(before_str, '%Y/%m/%d')
 
-        title_include = request.POST.get('title_include')
-        if title_include == '':
-            title_include = ' '
+            title_include = request.POST.get('title_include')
+            if title_include == '':
+                title_include = ' '
 
-        min_like_str = request.POST.get('min_like')
-        min_like = -1
-        if not min_like_str=='':
-            min_like = int(min_like_str)
+            min_like_str = request.POST.get('min_like')
+            min_like = -1
+            if not min_like_str=='':
+                min_like = int(min_like_str)
 
-        topics = Topic.objects.filter(date__gt=after, date__lt=before, likecount__gt=min_like, title__contains=title_include)
+            topics = Topic.objects.filter(date__gt=after, date__lt=before, likecount__gt=min_like, title__contains=title_include)
 
-        return render(request, 'appopinion/base.html', {'topic_list':topics})
-        """
+            return render(request, 'appopinion/base.html', {'topic_list':topics})
         except:
-            return render(request, 'appopinion/search.html', {'error':'There is an error in your query, please try again.'})
-        """
+            form = searchForm()
+            return render(request, 'appopinion/search.html', {'error':'There is an error in your query, please try again.',
+                                                            'form':form})
     else:
         form = searchForm()
         return render(request, 'appopinion/search.html', {'form':form})
