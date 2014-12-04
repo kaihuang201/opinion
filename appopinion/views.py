@@ -179,9 +179,9 @@ def success_signup(request):
     return HttpResponse("You have successfully signed up.")
 
 """
-helper funtion for redering index page, takes a queryset topics and return the rendered page
+helper funtion for getting context for index page, takes a queryset topics and page_str, return the context
 """
-def rederIndexPage(request, topics, page_str):
+def getTopicListContext(topics, page_str):
     PAGE_SIZE = 30
     MAX_PAGE_LINK = 10
     MID_PAGES = 3
@@ -231,7 +231,7 @@ def rederIndexPage(request, topics, page_str):
             'page_next' : page_next,
             'page' : page,
             }
-    return render(request, 'appopinion/base.html', context)
+    return context 
 
 # For index and topic detail
 def index(request):
@@ -249,7 +249,9 @@ def index(request):
         topics = Topic.objects.all()
         page_str = request.GET.get('page')
 
-    return rederIndexPage(request, topics, page_str)
+    context = getTopicListContext(topics, page_str)
+    return render(request, 'appopinion/base.html', context)
+
 
 def topic_detail(request, topic_id):
     topic = Topic.objects.get(pk=topic_id)
@@ -258,12 +260,24 @@ def topic_detail(request, topic_id):
         comment_text = request.POST['content']
         if comment_text != '':
             if not request.user.is_authenticated():
+<<<<<<< HEAD
                 return HttpResponseRedirect(reverse('appopinion:signin') +'?next=%s' % request.path)
             new_comment = Comment(
                 parent_id = topic_id,
                 content = cgi.escape(comment_text, True),
                 date = datetime.now(),
                 positive = True,)
+=======
+                return HttpResponseRedirect(
+                            reverse('appopinion:signin') +
+                            '?next=%s' % request.path)
+            new_comment = Comment(
+                                  parent_id = topic_id,
+                                  content = cgi.escape(comment_text, True),
+                                  date = datetime.now(),
+                                  positive = True,
+                                  )
+>>>>>>> 711bec0e43e66a8e6c87a281880ae75a7cea878f
             new_comment.save()
     except:
         pass
@@ -283,6 +297,43 @@ def topic_detail(request, topic_id):
     print pos_percent
 
     return render(request, 'appopinion/topic_detail.html', {'topic_id':topic_id, 'topic':topic, 'comment_list':comment_list[::-1], 'pos_percent': pos_percent * 100, 'neg_percent': neg_percent * 100})
+
+
+"""
+handle advance search request
+"""
+def search(request):
+    if request.method=='POST':
+        after_str = request.POST.get('after')
+        after = datetime.strptime('1970/01/01', '%Y/%m/%d')
+        if not after_str=='':
+            after = datetime.strptime(after_str, '%Y/%m/%d')
+
+        before_str = request.POST.get('before')
+        before = datetime.now()
+        if not before_str=='':
+            before = datetime.strptime(before_str, '%Y/%m/%d')
+
+        title_include = request.POST.get('title_include')
+        if title_include == '':
+            title_include = ' '
+
+        min_like_str = request.POST.get('min_like')
+        min_like = -1
+        if not min_like_str=='':
+            min_like = int(min_like_str)
+
+        topics = Topic.objects.filter(date__gt=after, date__lt=before, likecount__gt=min_like, title__contains=title_include)
+
+        return render(request, 'appopinion/base.html', {'topic_list':topics})
+        """
+        except:
+            return render(request, 'appopinion/search.html', {'error':'There is an error in your query, please try again.'})
+        """
+    else:
+        form = searchForm()
+        return render(request, 'appopinion/search.html', {'form':form})
+
 
 @csrf_exempt
 def topic_update(request, topic_id):
@@ -308,3 +359,4 @@ def topic_update(request, topic_id):
         print e
     
     return HttpResponse(json.dumps(response_data), content_type="application/json")
+

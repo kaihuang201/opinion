@@ -21,6 +21,5 @@ class Migration(migrations.Migration):
             model_name='topic',
             name='likecount',
             field=models.BigIntegerField(default=0),
-            preserve_default=True,
         ),
     ]
