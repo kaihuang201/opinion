@@ -263,7 +263,7 @@ def topic_detail(request, topic_id):
                 return HttpResponseRedirect(
                             reverse('appopinion:signin') +
                             '?next=%s' % request.path)
-                new_comment = Comment(
+            new_comment = Comment(
                                   parent_id = topic_id,
                                   content = cgi.escape(comment_text, True),
                                   date = datetime.now(),
@@ -287,6 +287,7 @@ def topic_detail(request, topic_id):
         neg_percent = 0.0
     print pos_percent
     return render(request, 'appopinion/topic_detail.html', {'topic_id':topic_id, 'topic':topic, 'comment_list':comment_list[::-1], 'pos_percent': pos_percent * 100, 'neg_percent': neg_percent * 100})
+
 
 """
 handle advance search request
