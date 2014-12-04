@@ -260,14 +260,6 @@ def topic_detail(request, topic_id):
         comment_text = request.POST['content']
         if comment_text != '':
             if not request.user.is_authenticated():
-<<<<<<< HEAD
-                return HttpResponseRedirect(reverse('appopinion:signin') +'?next=%s' % request.path)
-            new_comment = Comment(
-                parent_id = topic_id,
-                content = cgi.escape(comment_text, True),
-                date = datetime.now(),
-                positive = True,)
-=======
                 return HttpResponseRedirect(
                             reverse('appopinion:signin') +
                             '?next=%s' % request.path)
@@ -277,7 +269,6 @@ def topic_detail(request, topic_id):
                                   date = datetime.now(),
                                   positive = True,
                                   )
->>>>>>> 711bec0e43e66a8e6c87a281880ae75a7cea878f
             new_comment.save()
     except:
         pass
