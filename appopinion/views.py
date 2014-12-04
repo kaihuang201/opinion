@@ -258,15 +258,12 @@ def topic_detail(request, topic_id):
         comment_text = request.POST['content']
         if comment_text != '':
             if not request.user.is_authenticated():
-                return HttpResponseRedirect(
-                            reverse('appopinion:signin') +
-                            '?next=%s' % request.path)
-                new_comment = Comment(
-                                  parent_id = topic_id,
-                                  content = cgi.escape(comment_text, True),
-                                  date = datetime.now(),
-                                  positive = True,
-                                  )
+                return HttpResponseRedirect(reverse('appopinion:signin') +'?next=%s' % request.path)
+            new_comment = Comment(
+                parent_id = topic_id,
+                content = cgi.escape(comment_text, True),
+                date = datetime.now(),
+                positive = True,)
             new_comment.save()
     except:
         pass
@@ -284,6 +281,7 @@ def topic_detail(request, topic_id):
         pos_percent = 0.0
         neg_percent = 0.0
     print pos_percent
+
     return render(request, 'appopinion/topic_detail.html', {'topic_id':topic_id, 'topic':topic, 'comment_list':comment_list[::-1], 'pos_percent': pos_percent * 100, 'neg_percent': neg_percent * 100})
 
 @csrf_exempt
@@ -292,7 +290,7 @@ def topic_update(request, topic_id):
     if request.user.is_authenticated():
         response_data['auth'] = 1
     else:
-        response_data['auth'] = 0
+        response_data['jauth'] = 0
     ensure_csrf_cookie(request)
 
     time = request.POST['now']
